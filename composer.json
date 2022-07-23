@@ -1,0 +1,17 @@
+{
+    "name": "rostyslav/iterator",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Iterator\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rostyslav.Kibkalo",
+            "email": "rostislav.kibkalo@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
