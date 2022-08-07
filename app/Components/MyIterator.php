@@ -8,7 +8,7 @@ class MyIterator implements \Iterator
 
     protected string $path;
 
-    protected mixed $handler;
+    protected array $handler;
 
     public function __construct($path){
         $this->path = $path;
@@ -16,14 +16,21 @@ class MyIterator implements \Iterator
 
     }
 
-    public function get()
+    public function get() : array
     {
         return $this->handler;
     }
 
-    public function current(): mixed
+    /**
+     * @throws \Exception
+     */
+    public function current(): array
     {
-        return $this->handler[$this->pointer];
+        if($this->valid()){
+            return $this->handler[$this->pointer];
+        }
+        throw new \Exception("There is no value with this key in file" . $this->path);
+
     }
 
     public function next(): void
@@ -31,7 +38,7 @@ class MyIterator implements \Iterator
         $this->pointer++;
     }
 
-    public function key(): mixed
+    public function key(): string
     {
         return $this->pointer;
     }
@@ -46,14 +53,17 @@ class MyIterator implements \Iterator
         $this->pointer = 0;
     }
 
-    public function readNeedle($key) : mixed
+    /**
+     * @throws \Exception
+     */
+    public function readNeedle($key) : array
     {
         $this->setNeedle($key);
         if($this->valid()){
             return $this->handler[$this->pointer];
         }
-        $error = new \Error("There is no value with this key in file" . $this->path);
-        return $error->getMessage();
+        throw new \Exception("There is no value with this key in file" . $this->path);
+
     }
     protected function setNeedle($key) : void
     {
